@@ -4,14 +4,16 @@
 #include <QFile>
 #include <QTextStream>
 
+#include <QDebug>
+
 BibFile::BibFile(QString filePath)
 {
 	m_filePath = filePath;
 }
 
-QList<QHash<QString, QString> > BibFile::getDocuments()
+BibLaTeXItemCollection BibFile::getDocuments()
 {
-	QList<QHash<QString, QString> > documents;
+	BibLaTeXItemCollection documents;
 
 	QFile bibFile(m_filePath);
 
@@ -24,6 +26,7 @@ QList<QHash<QString, QString> > BibFile::getDocuments()
 
 	for (QString bibEntry : findEntries(content))
 	{
+		// TODO: These need to be processed at least string
 		if (bibEntry == "preamble" || bibEntry == "string" || bibEntry == "comment" )
 			continue;
 		documents.append(parseEntry(bibEntry));
@@ -31,7 +34,7 @@ QList<QHash<QString, QString> > BibFile::getDocuments()
 	return documents;
 }
 
-QHash<QString, QString> BibFile::parseEntry(QString entry)
+BibLaTeXItem BibFile::parseEntry(QString entry)
 {
 	QHash<QString, QString> bibEntry;
 
@@ -105,30 +108,34 @@ QList<QString> BibFile::findEntries(const QString& content)
 	QList<QString> entries;
 
 	QString rest = content.simplified();
-	int index = 0;
+	int indexStart = 0;
+	int indexEnd = 0;
 	int numBraces = 0;
 
-	while (rest.startsWith('@'))
+	// Check if
+	while ((indexStart = rest.indexOf('@', indexEnd)) > -1)
 	{
-		index = rest.indexOf('{');
-		numBraces = 1;
+		// Mark the beginning of an entry
+		indexEnd = rest.indexOf('{', indexStart);
+		numBraces = 1;		// Number of opening brackets found thus far
 
+		// Try to find the closing brackets
 		while (numBraces > 0)
 		{
-			if ((rest.indexOf('{', index+1) < rest.indexOf('}', index+1)) && rest.indexOf('{', index+1) != -1)
+			// If an opening bracket exists and it comes before the next closing bracket, increase the bracket counter
+			if ((rest.indexOf('{', indexEnd+1) != -1) && (rest.indexOf('{', indexEnd+1) < rest.indexOf('}', indexEnd+1)))
 			{
-				index = rest.indexOf('{', index+1);
+				indexEnd = rest.indexOf('{', indexEnd+1);
 				numBraces++;
 			}
-			else
+			else	// Else we found a closing bracket and we can reduce the counter of open brackets
 			{
-				index = rest.indexOf('}', index+1);
+				indexEnd = rest.indexOf('}', indexEnd+1);
 				numBraces--;
 			}
 		}
 
-		entries.append(rest.mid(1, index));
-		rest = rest.remove(0, index+1).simplified();
+		entries.append(rest.mid(indexStart, indexEnd-indexStart));
 	}
 
 	return entries;

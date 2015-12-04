@@ -10,7 +10,7 @@ class BibFile : public BibStorage
 {
 public:
 	BibFile(QString filePath);
-	QList<QHash<QString, QString> > getDocuments();
+	BibLaTeXItemCollection getDocuments();
 
 private:
 	QHash<QString, QString> parseEntry(QString entry);
