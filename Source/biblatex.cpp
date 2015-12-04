@@ -3,6 +3,7 @@
 
 #include <QXmlStreamReader>
 #include <QFile>
+#include <QRegExp>
 
 #include <QDebug>
 
@@ -37,16 +38,14 @@ BibLaTeX::BibLaTeX()
 				while (xml.readNextStartElement()) // EntryTypes
 				{
 					name = xml.attributes().value("Name").toString();
+					qDebug() << name;
 
-					while (xml.readNextStartElement()) // Attributes
-					{
-						attribute = xml.name().toString();
+					QRegExp regex("\\W+{/W+}?");	// Regex matches "word" or "word/another"
 
-						while (xml.readNextStartElement())
-						{
-							m_types[name][attribute].append(xml.readElementText());
-						}
-					}
+					m_types[name]["RequiredFields"] = xml.attributes().value("RequiredFields").toString().split(regex);
+					m_types[name]["OptionalFields"] = xml.attributes().value("OptionalFields").toString().split(regex);
+					xml.skipCurrentElement();
+
 				}
 			}
 			else if (type == "EntryFields")
@@ -55,13 +54,9 @@ BibLaTeX::BibLaTeX()
 				{
 					name = xml.attributes().value("Name").toString();
 					m_fieldsOrdered.append(name);
-					while (xml.readNextStartElement()) // Attributes of EntryField
-					{
-						attribute = xml.name().toString();
-						value = xml.readElementText();
 
-						m_fields[name][attribute] = value;
-					}
+					m_fields[name]["Type"] = xml.attributes().value("Type").toString();
+					m_fields[name]["Tooltip"] = xml.readElementText();
 				}
 			}
 		}
@@ -73,7 +68,6 @@ BibLaTeX::BibLaTeX()
 	}
 
 	qDebug() << m_types;
-	qDebug() << m_fields;
 
 }
 
