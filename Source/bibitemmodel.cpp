@@ -1,11 +1,14 @@
 #include "bibitemmodel.h"
 #include "BibStorage/bibstorage.h"
 #include "BibStorage/bibfile.h"
+#include "biblatex.h"
 
 BibItemModel::BibItemModel(QObject *parent) :
 	QStandardItemModel(parent)
 {
 	loadItems();
+
+	BibLaTeX::instance();
 }
 
 QVariant BibItemModel::headerData(int section, Qt::Orientation orientation, int role) const
