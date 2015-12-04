@@ -25,8 +25,6 @@ BibLaTeX::BibLaTeX()
 		}
 
 		QString type;
-		QString attribute;
-		QString value;
 		QString name;
 
 		while(xml.readNextStartElement())
