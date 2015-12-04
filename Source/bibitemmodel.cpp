@@ -3,6 +3,8 @@
 #include "BibStorage/bibfile.h"
 #include "biblatex.h"
 
+#include <QDebug>
+
 BibItemModel::BibItemModel(QObject *parent) :
 	QStandardItemModel(parent)
 {
@@ -18,7 +20,7 @@ QVariant BibItemModel::headerData(int section, Qt::Orientation orientation, int 
 
 	if (orientation == Qt::Horizontal)
 	{
-		return BIB_PROPERTIES.at(section);
+		return BibLaTeX::instance().fieldsOrdered().at(section);
 	}
 	return QVariant();
 
@@ -35,7 +37,7 @@ void BibItemModel::loadItems()
 	for (auto i : items)
 	{
 		column = 0;
-		for (QString property : BIB_PROPERTIES)
+		for (QString property : BibLaTeX::instance().fieldsOrdered())
 		{
 			QStandardItem *item = new QStandardItem(i[property]);
 			this->setItem(row, column, item);

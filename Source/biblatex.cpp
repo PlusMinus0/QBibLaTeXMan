@@ -6,6 +6,10 @@
 
 #include <QDebug>
 
+QMap<QString, QHash <QString, QStringList>> BibLaTeX::m_types;
+QMap <QString, QHash <QString, QString>> BibLaTeX::m_fields;
+QStringList BibLaTeX::m_fieldsOrdered = { "type", "citationkey" };
+
 BibLaTeX::BibLaTeX()
 {
 	QFile *settingsFile = new QFile("/home/mbrandt/Projects/QBibLaTeXMan/biblatex.conf.xml");
@@ -50,6 +54,7 @@ BibLaTeX::BibLaTeX()
 				while (xml.readNextStartElement()) // EntryField
 				{
 					name = xml.attributes().value("Name").toString();
+					m_fieldsOrdered.append(name);
 					while (xml.readNextStartElement()) // Attributes of EntryField
 					{
 						attribute = xml.name().toString();
