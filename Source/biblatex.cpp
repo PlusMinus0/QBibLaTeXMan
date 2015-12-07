@@ -36,11 +36,11 @@ BibLaTeX::BibLaTeX()
 				while (xml.readNextStartElement()) // EntryTypes
 				{
 					name = xml.attributes().value("Name").toString();
-					qDebug() << name;
 
-					QRegExp regex("\\W+{/W+}?");	// Regex matches "word" or "word/another"
+					QRegExp regex("[,\\s]+");	// Regex matches "," or whitespaces
 
 					m_types[name]["RequiredFields"] = xml.attributes().value("RequiredFields").toString().split(regex);
+
 					m_types[name]["OptionalFields"] = xml.attributes().value("OptionalFields").toString().split(regex);
 					xml.skipCurrentElement();
 
@@ -65,7 +65,6 @@ BibLaTeX::BibLaTeX()
 		settingsFile->close();
 	}
 
-	qDebug() << m_types;
 
 }
 

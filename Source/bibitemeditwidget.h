@@ -7,6 +7,8 @@
 #include <QAbstractItemModel>
 #include <QDataWidgetMapper>
 #include <QFormLayout>
+#include <QComboBox>
+#include <QList>
 
 class BibItemEditWidget : public QWidget
 {
@@ -18,13 +20,24 @@ public:
 	void setModel(QAbstractItemModel *model);
 
 private:
+	void initComboBox();
+	void clearLayout();
+
 	QDataWidgetMapper m_mapper;
 	QFormLayout *m_layout;
+	QComboBox *m_typeComboBox = NULL;
+
+	QList<QWidget*> m_fields;
+
+
 
 signals:
 
 public slots:
 	void selectionChanged(const QModelIndex &index);
+
+private slots:
+	void rebuild(const QString &type);
 };
 
 #endif // BIBITEMEDITWIDGET_H
