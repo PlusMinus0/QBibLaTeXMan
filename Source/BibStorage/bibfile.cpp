@@ -41,7 +41,8 @@ BibLaTeXItem BibFile::parseEntry(QString entry)
 	QString head = entry.section(',', 0, 0).simplified().toLower();
 	QString rest = entry.section(',', 1).simplified();
 
-	bibEntry["type"] = head.split('{')[0].simplified();
+	// Head looks like @type{citationkey so take the part before the bracket, remove the @, then take the second part
+	bibEntry["type"] = head.split('{')[0].simplified().remove(0,1);
 	bibEntry["citationkey"] = head.split('{')[1].simplified();
 
 	QString propertyType;
