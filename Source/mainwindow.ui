@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>776</width>
-    <height>452</height>
+    <width>778</width>
+    <height>454</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,6 +17,18 @@
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="1">
      <widget class="QScrollArea" name="scrollArea">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>400</width>
+        <height>0</height>
+       </size>
+      </property>
       <property name="widgetResizable">
        <bool>true</bool>
       </property>
@@ -25,8 +37,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>374</width>
-         <height>378</height>
+         <width>398</width>
+         <height>380</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -47,7 +59,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>776</width>
+     <width>778</width>
      <height>20</height>
     </rect>
    </property>

@@ -17,7 +17,7 @@ public:
 	QStringList fieldsOrdered() { return m_fieldsOrdered; }
 	QHash<QString, QString> fieldProperties(const QString& field) { return m_fields[field]; }
 	QStringList requiredFields(const QString& type) { return m_types[type]["RequiredFields"]; }
-	QStringList optionalFields(const QString& type) { return m_types[type]["OptionalFields"]; }
+	QStringList optionalFields(const QString& type) { return m_optionalFields + m_types[type]["OptionalFields"]; }
 
 	~BibLaTeX();
 
@@ -29,6 +29,7 @@ private:
 
 	static QMap <QString, QHash <QString, QStringList>> m_types;	// Use QMap to ensure the keys are always sorted
 	static QMap <QString, QHash <QString, QString>> m_fields;		// Use QMap to ensure the keys are always sorted
+	static QStringList m_optionalFields;
 	static QStringList m_fieldsOrdered;
 };
 

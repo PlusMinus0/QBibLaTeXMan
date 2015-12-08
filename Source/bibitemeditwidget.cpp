@@ -6,6 +6,8 @@
 #include <QLayout>
 #include <QBoxLayout>
 #include <QDateTimeEdit>
+#include <QTextEdit>
+#include <QLabel>
 
 #include <QDebug>
 BibItemEditWidget::BibItemEditWidget(QWidget *parent) : QWidget(parent)
@@ -70,39 +72,51 @@ void BibItemEditWidget::rebuild(const QString& type)
 	QWidget *field;
 
 	QStringList fields(BibLaTeX::instance().requiredFields(type));
+
 	fields.append(BibLaTeX::instance().optionalFields(type));
 
+	QList<QStringList> listOfList= {BibLaTeX::instance().requiredFields(type), BibLaTeX::instance().optionalFields(type)};
 
-	for (QString requiredField : fields)
+	for (auto listOfFields : listOfList)
 	{
-		for (QString fieldName :requiredField.split("/"))
+		QLabel *label = new QLabel("Required Fields", this);
+
+		m_layout->addRow("", label);
+		m_fields.append(label);
+
+		for (QString fieldString : listOfFields)
 		{
-			fieldProperties = BibLaTeX::instance().fieldProperties(fieldName);
-
-			qDebug() << fieldName << ": " << fieldProperties["Type"];
-
-			if ((fieldProperties["Type"] == "String") || (fieldProperties["Type"] == "StringList"))
-				field = new QLineEdit;
-			/*else if (fieldProperties["Type"] == "Date")
+			for (QString fieldName :fieldString.split("/"))
 			{
-				QDateTimeEdit *dte = new QDateTimeEdit;
-				dte->setDisplayFormat("yyyy-MM-dd");
-				dte->setSpecialValueText( " " );
-				field = dte;
+				fieldProperties = BibLaTeX::instance().fieldProperties(fieldName);
+
+				if ((fieldProperties["Type"] == "String") || (fieldProperties["Type"] == "StringList"))
+					field = new QLineEdit;
+				if (fieldProperties["Type"] == "Text")
+				{
+					field = new QTextEdit;
+				}
+				/*else if (fieldProperties["Type"] == "Date")
+				{j
+					QDateTimeEdit *dte = new QDateTimeEdit;
+					dte->setDisplayFormat("yyyy-MM-dd");
+					dte->setSpecialValueText( " " );
+					field = dte;
+				}
+				else if (fieldProperties["Type"] == "Year")
+				{
+					QDateTimeEdit *dte = new QDateTimeEdit;
+					dte->setDisplayFormat("yyyy");
+					field = dte;
+				}*/
+				else
+					field = new QLineEdit;
+
+				m_mapper.addMapping(field, BibLaTeX::instance().fieldsOrdered().indexOf(fieldName));
+
+				m_layout->addRow(fieldName, field);
+				m_fields.append(field);
 			}
-			else if (fieldProperties["Type"] == "Year")
-			{
-				QDateTimeEdit *dte = new QDateTimeEdit;
-				dte->setDisplayFormat("yyyy");
-				field = dte;
-			}*/
-			else
-				field = new QLineEdit;
-
-			m_mapper.addMapping(field, BibLaTeX::instance().fieldsOrdered().indexOf(fieldName));
-
-			m_layout->addRow(fieldName, field);
-			m_fields.append(field);
 		}
 	}
 
