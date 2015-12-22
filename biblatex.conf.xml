@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+Source: http://ctan.space-pro.be/tex-archive/macros/latex/contrib/biblatex/doc/biblatex.pdf
+-->
+<BibLaTeX>
+	<EntryTypes AlwaysOptional="abstract, annotation, label, shorthand">
+		<EntryType 
+			Name="article" 
+			RequiredFields="author, title, journaltitle, year/date"
+			OptionalFields="translator, annotator, commentator, subtitle,titleaddon, editor, editora, editorb, editorc, journalsubtitle,issuetitle, issuesubtitle, language, origlanguage, series,volume, number, eid, issue, month, pages, version, note, issn,addendum, pubstate, doi, eprint, eprintclass, eprinttype, url,urldate"></EntryType>
+		<EntryType 
+			Name="inproceedings" 
+			RequiredFields="author, title, booktitle, year/date"
+			OptionalFields="editor, subtitle, titleaddon, maintitle,mainsubtitle, maintitleaddon, booksubtitle, booktitleaddon,eventtitle, eventtitleaddon, eventdate, venue, language,volume, part, volumes, series, number, note, organization,publisher, location, month, isbn, chapter, pages, addendum,pubstate, doi, eprint, eprintclass, eprinttype, url, urldate"></EntryType>
+		<EntryType 
+			Name="misc" 
+			RequiredFields="author/editor, title, year/date"
+			OptionalFields="subtitle, titleaddon, language, howpublished,type, version, note, organization, location, date, month, year,addendum, pubstate, doi, eprint, eprintclass, eprinttype, url,urldate"></EntryType>
+	</EntryTypes>
+	<EntryFields>
+		<EntryField Name="abstract" Type="Text">This field is intended for recording abstracts in a bib file, to be printed by a special bibliography style. It is not used by all standard bibliography styles.</EntryField>
+		<EntryField Name="author" Type="StringList"></EntryField>
+		<EntryField Name="title" Type="String"></EntryField>
+		<EntryField Name="journaltitle" Type="String"></EntryField>
+		<EntryField Name="booktitle" Type="String"></EntryField>
+		<EntryField Name="year" Type="Year"></EntryField>
+		<EntryField Name="date" Type="Date"></EntryField>
+		<EntryField Name="doi" Type="String"></EntryField>
+	</EntryFields>
+</BibLaTeX>
+
