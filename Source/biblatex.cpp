@@ -9,12 +9,12 @@
 
 QMap<QString, QHash <QString, QStringList>> BibLaTeX::m_types;
 QMap <QString, QHash <QString, QString>> BibLaTeX::m_fields;
-QStringList BibLaTeX::m_optionalFields;
 QStringList BibLaTeX::m_fieldsOrdered = { "type", "citationkey" };
 
 BibLaTeX::BibLaTeX()
 {
-	QFile *settingsFile = new QFile("/home/mbrandt/Projects/QBibLaTeXMan/biblatex.conf.xml");
+	QStringList alwaysOptionalFields;
+	QFile *settingsFile = new QFile("../biblatex.conf.xml");
 	if (settingsFile->open(QIODevice::ReadOnly | QIODevice::Text))
 	{
 
@@ -36,15 +36,15 @@ BibLaTeX::BibLaTeX()
 
 			if (type == "EntryTypes")
 			{
-				m_optionalFields = xml.attributes().value("AlwaysOptional").toString().split(regex);
+				alwaysOptionalFields = xml.attributes().value("AlwaysOptional").toString().split(regex);
 
 				while (xml.readNextStartElement()) // EntryTypes
 				{
 					name = xml.attributes().value("Name").toString();
 
-					m_types[name]["RequiredFields"] = xml.attributes().value("RequiredFields").toString().split(regex);
+					m_types[name]["Required Fields"] = xml.attributes().value("RequiredFields").toString().split(regex);
 
-					m_types[name]["OptionalFields"] = xml.attributes().value("OptionalFields").toString().split(regex);
+					m_types[name]["Optional Fields"] = alwaysOptionalFields + xml.attributes().value("OptionalFields").toString().split(regex);
 					xml.skipCurrentElement();
 
 				}

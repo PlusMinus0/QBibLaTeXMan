@@ -54,11 +54,20 @@ void BibItemEditWidget::initComboBox()
 void BibItemEditWidget::clearLayout()
 {
 	QWidget *field;
+
+	// Iterate though all fields in this widget and delete them
 	while (!m_fields.isEmpty())
 	{
 		field = m_fields.takeFirst();
-		m_layout->labelForField(field)->deleteLater();
+
+		// Check if the current field has a label and then delete it
+		if (m_layout->labelForField(field))
+			m_layout->labelForField(field)->deleteLater();
+
+		// Delete the field
 		field->deleteLater();
+
+		// Remove the mapping
 		m_mapper.removeMapping(field);
 	}
 }
@@ -68,23 +77,18 @@ void BibItemEditWidget::rebuild(const QString& type)
 	m_mapper.submit();
 	clearLayout();
 
-	QHash<QString, QString> fieldProperties;
-	QWidget *field;
+	QHash<QString, QString> fieldProperties;	// Temporary storage for field properties
+	QWidget *field;				// Temporary storage for newly created widgets
+	QLabel *label;				// Temporary storage for newly created labels
 
-	QStringList fields(BibLaTeX::instance().requiredFields(type));
-
-	fields.append(BibLaTeX::instance().optionalFields(type));
-
-	QList<QStringList> listOfList= {BibLaTeX::instance().requiredFields(type), BibLaTeX::instance().optionalFields(type)};
-
-	for (auto listOfFields : listOfList)
+	for (QString fieldType : BibLaTeX::instance().fields(type).keys())
 	{
-		QLabel *label = new QLabel("Required Fields", this);
+		label = new QLabel(fieldType, this);
 
 		m_layout->addRow("", label);
 		m_fields.append(label);
 
-		for (QString fieldString : listOfFields)
+		for (QString fieldString :BibLaTeX::instance().fields(type)[fieldType] )
 		{
 			for (QString fieldName :fieldString.split("/"))
 			{
