@@ -11,7 +11,7 @@ BibFile::BibFile(QString filePath)
 	m_filePath = filePath;
 }
 
-BibLaTeXItemCollection BibFile::getDocuments()
+BibLaTeXItemCollection BibFile::getDocuments() const
 {
 	BibLaTeXItemCollection documents;
 
@@ -34,7 +34,7 @@ BibLaTeXItemCollection BibFile::getDocuments()
 	return documents;
 }
 
-BibLaTeXItem BibFile::parseEntry(QString entry)
+BibLaTeXItem BibFile::parseEntry(const QString &entry) const
 {
 	QHash<QString, QString> bibEntry;
 
@@ -112,7 +112,7 @@ BibLaTeXItem BibFile::parseEntry(QString entry)
 	return bibEntry;
 }
 
-QList<QString> BibFile::findEntries(const QString& content)
+QList<QString> BibFile::findEntries(const QString& content) const
 {
 	QList<QString> entries;
 

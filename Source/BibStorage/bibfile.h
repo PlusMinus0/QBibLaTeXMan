@@ -10,11 +10,11 @@ class BibFile : public BibStorage
 {
 public:
 	BibFile(QString filePath);
-	BibLaTeXItemCollection getDocuments();
+	BibLaTeXItemCollection getDocuments() const;
 
 private:
-	QHash<QString, QString> parseEntry(QString entry);
-	QList<QString> findEntries(const QString &content);
+	QHash<QString, QString> parseEntry(const QString &entry) const;
+	QList<QString> findEntries(const QString &content) const;
 	QString m_filePath;
 };
 

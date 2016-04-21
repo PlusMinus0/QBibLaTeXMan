@@ -8,7 +8,7 @@ class BibStorage
 {
 public:
 	BibStorage();
-	virtual BibLaTeXItemCollection getDocuments() = 0;
+	virtual BibLaTeXItemCollection getDocuments() const = 0;
 };
 
 #endif // BIBSTORAGE_H
