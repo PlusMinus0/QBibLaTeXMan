@@ -1,5 +1,4 @@
 #include "bibitemmodel.h"
-#include "BibStorage/bibstorage.h"
 #include "BibStorage/bibfile.h"
 #include "biblatex.h"
 
@@ -8,7 +7,7 @@
 BibItemModel::BibItemModel(QObject *parent) :
 	QStandardItemModel(parent)
 {
-	loadItems();
+	//loadItems();
 
 	BibLaTeX::instance();
 }
@@ -26,10 +25,9 @@ QVariant BibItemModel::headerData(int section, Qt::Orientation orientation, int 
 
 }
 
-void BibItemModel::loadItems()
+void BibItemModel::loadItems(const BibStorage &storage)
 {
-	BibFile bibfile("proxiVision.bib");
-	auto items = bibfile.getDocuments();
+	auto items = storage.getDocuments();
 
 	int row = 0;
 	int column = 0;

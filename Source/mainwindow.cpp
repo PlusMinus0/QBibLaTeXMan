@@ -3,6 +3,7 @@
 
 #include "bibtableview.h"
 #include "bibitemeditwidget.h"
+#include "BibStorage/bibfile.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -12,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->setupUi(this);
 
 	BibItemModel *model = new BibItemModel();
+	model->loadItems(BibFile("proxiVision.bib"));
 
 	BibTableView *t = this->findChild<BibTableView *>("tableView");
 	t->setModel(model);

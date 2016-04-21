@@ -1,6 +1,8 @@
 #ifndef BIBITEMMODEL_H
 #define BIBITEMMODEL_H
 
+#include "BibStorage/bibstorage.h"
+
 #include <QStandardItemModel>
 #include <QStringList>
 #include <QString>
@@ -18,7 +20,7 @@ public:
 signals:
 
 public slots:
-	void loadItems();
+	void loadItems(const BibStorage& storage);
 
 };
 
