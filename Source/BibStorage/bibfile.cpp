@@ -94,6 +94,14 @@ BibLaTeXItem BibFile::parseEntry(QString entry)
 		}
 
 		propertyValue = rest.mid(startIndex, index-1);
+
+		// If for some reason the property value is still embraced
+		while (propertyValue.startsWith('{') && propertyValue.endsWith('}'))
+		{
+			propertyValue = propertyValue.remove(-1, 1);
+			propertyValue = propertyValue.remove(0, 1);
+		}
+
 		index = rest.indexOf(',', index);
 		rest = rest.remove(0, index+1);
 
