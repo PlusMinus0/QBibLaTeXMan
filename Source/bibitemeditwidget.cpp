@@ -6,7 +6,7 @@
 #include <QLayout>
 #include <QBoxLayout>
 #include <QDateTimeEdit>
-#include <QTextEdit>
+#include <QPlainTextEdit>
 #include <QLabel>
 
 #include <QDebug>
@@ -98,7 +98,7 @@ void BibItemEditWidget::rebuild(const QString& type)
 					field = new QLineEdit;
 				if (fieldProperties["Type"] == "Text")
 				{
-					field = new QTextEdit;
+					field = new QPlainTextEdit;
 				}
 				/*else if (fieldProperties["Type"] == "Date")
 				{j
